@@ -1,3 +1,5 @@
+> **Status:** UI prototype. All data shown is mocked; the Supabase data layer is scaffolded but not yet wired up. See docs/design.md for the intended product.
+
 # Chops Buddy
 
 A Next.js + Tailwind CSS project for building the Chops Buddy saxophone teaching platform. The MVP focuses on teacher scheduling, scale assignments, and guided practice summaries powered by Supabase.
