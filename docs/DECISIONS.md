@@ -29,6 +29,9 @@ Append-only. Each entry records what was decided, who decided, and what would re
 | 23 | 2026-09-14 | One GitHub OIDC role does both image pushes and Terraform applies for v0.1; it is deliberately broad (ecr:*, apprunner:*, iam:*, ssm:*). Splitting into a PR plan-only role and a main apply role is a v0.2 hardening item. | Claude proposed | Any second contributor with PR rights |
 | 24 | 2026-09-14 | Deploys are image-driven: CI pushes `:sha` and `:latest`; App Runner auto-deploys on a new `latest`. Migrations run from CI against the Supabase session-mode pooler before the image is pushed, so a running container never sees a schema older than its code. | Claude proposed | Needing zero-downtime backwards-compatible migrations, which would flip the order |
 | 25 | 2026-09-14 | Region ap-southeast-2 (Sydney). Smallest App Runner instance (0.25 vCPU, 0.5 GB), min 1 max 2. | Claude proposed | Latency or cost evidence |
+<<<<<<< HEAD
 | 26 | 2026-09-14 | The prototype's mock pages (dashboard, assignments, practice log, questions, settings, design doc) are deleted; only the app shell, nav, and page header components survive. The client has exactly the screens the DoD names. | Claude proposed | — |
 | 27 | 2026-09-14 | The teacher student page uses a query-string id (`/teacher/student/?id=`) instead of a dynamic route so the static export needs no generateStaticParams. All data is fetched client-side with the Supabase access token. | Claude proposed | Moving off static export (#12 fallback) |
 | 28 | 2026-09-14 | The API allows cross-origin requests only from origins listed in `CB_CORS_ORIGINS` (the GitHub Pages origin in production, localhost:3000 in dev). | Claude proposed | — |
+=======
+>>>>>>> origin/main
