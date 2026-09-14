@@ -15,7 +15,7 @@ from pathlib import Path
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-API_DIR = Path(__file__).resolve().parents[2]
+API_DIR = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(scope="session")
