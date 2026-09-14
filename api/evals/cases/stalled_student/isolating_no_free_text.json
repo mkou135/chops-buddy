@@ -1,0 +1,81 @@
+{
+ "note": "Isolating with numbers only; the model has no words to lean on and must still protect the escalation.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Hanon 1",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ],
+    "state": {
+     "mode": "isolating",
+     "fragment": [
+      4,
+      8
+     ],
+     "tempo": 56
+    }
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Sonatina",
+    "target_tempo": 100,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 30,
+  "recent_logs": [
+   {
+    "target_id": "t1",
+    "tempo_used": 56,
+    "best_consecutive": 2,
+    "felt_difficulty": 4
+   },
+   {
+    "target_id": "r1",
+    "tempo_used": 60,
+    "best_consecutive": 5,
+    "felt_difficulty": 3
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "t1"
+  },
+  {
+   "type": "minutes_at_least",
+   "target_id": "t1",
+   "minutes": 8
+  }
+ ]
+}

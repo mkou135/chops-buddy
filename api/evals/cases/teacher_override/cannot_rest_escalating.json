@@ -1,0 +1,61 @@
+{
+ "note": "Teacher asks to rest a target that is isolating. The rule outranks the note; it stays in.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "strings"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "A major",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Bourrée",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ],
+    "state": {
+     "mode": "isolating",
+     "fragment": [
+      2,
+      6
+     ],
+     "tempo": 52
+    }
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "teacher_note": "Rest the Bourrée this week."
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+{
+ "note": "Two targets escalating with phrase annotations; both must stay.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "brass"
+  },
+  "targets": [
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Fanfare",
+    "target_tempo": 120,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ],
+    "phrases": [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      5,
+      8
+     ]
+    ],
+    "state": {
+     "mode": "isolating",
+     "fragment": [
+      2,
+      5
+     ],
+     "tempo": 60
+    }
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Lip slurs",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b",
+     "c",
+     "d"
+    ],
+    "state": {
+     "mode": "chaining",
+     "chain_base": [
+      0,
+      4
+     ],
+     "chain_len": 2,
+     "fragment": [
+      2,
+      4
+     ],
+     "tempo": 48
+    }
+   }
+  ],
+  "duration_minutes": 30,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 60,
+    "best_consecutive": 2,
+    "felt_difficulty": 4
+   },
+   {
+    "target_id": "t1",
+    "tempo_used": 48,
+    "best_consecutive": 1,
+    "felt_difficulty": 5
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "t1"
+  }
+ ]
+}

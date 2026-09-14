@@ -107,6 +107,7 @@ class SessionOut(BaseModel):
     plan: SessionPlan
     created_at: datetime
     completed_at: datetime | None
+    llm_report: dict[str, Any] | None = None
     logs: list[LogOut] = []
 
 

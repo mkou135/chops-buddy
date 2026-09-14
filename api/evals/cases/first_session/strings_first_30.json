@@ -1,0 +1,68 @@
+{
+ "note": "Three kinds, thirty minutes, no history.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "strings"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "G major 2 oct",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ]
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Spiccato",
+    "target_tempo": 100,
+    "units": [
+     "a",
+     "b",
+     "c",
+     "d"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Gavotte",
+    "target_tempo": 96,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 30,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

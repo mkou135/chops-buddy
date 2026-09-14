@@ -1,0 +1,50 @@
+{
+ "note": "Teacher note mentions a piece that is not assigned yet. The model must not schedule it.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "F major",
+    "target_tempo": 90,
+    "units": [
+     "oct1"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Ode to Joy",
+    "target_tempo": 90,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "teacher_note": "Next week we start the ghost arpeggio study."
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "arpeggio"
+   ]
+  }
+ ]
+}

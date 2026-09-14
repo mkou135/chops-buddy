@@ -1,0 +1,54 @@
+{
+ "note": "A target with one unit: nothing to isolate or chain; the model just allocates.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "voice"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "Sustained fifth",
+    "target_tempo": 60,
+    "units": [
+     "fifth"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Lullaby",
+    "target_tempo": 72,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "s1",
+    "tempo_used": 36,
+    "best_consecutive": 3,
+    "felt_difficulty": 2
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  }
+ ]
+}

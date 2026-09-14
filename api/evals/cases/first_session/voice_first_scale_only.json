@@ -1,0 +1,40 @@
+{
+ "note": "Only a scale assigned; long tones plus scale.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "voice"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "Sirens",
+    "target_tempo": 60,
+    "units": [
+     "up",
+     "down"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

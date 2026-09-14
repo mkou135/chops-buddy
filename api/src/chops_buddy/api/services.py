@@ -2,6 +2,7 @@
 
 import uuid
 from datetime import UTC, datetime
+from typing import Any
 
 from fastapi import HTTPException, status
 from sqlalchemy import select
@@ -24,6 +25,12 @@ from chops_buddy.engine.models import EngineError, TargetState
 from chops_buddy.engine.models import LogEntry as EngineLogEntry
 from chops_buddy.engine.models import Prescription as EnginePrescription
 from chops_buddy.engine.models import Student as EngineStudent
+from chops_buddy.llm.proposer import (
+    AnthropicProposer,
+    ProposalRequest,
+    Proposer,
+    propose_session,
+)
 from chops_buddy.settings import settings
 
 
@@ -107,6 +114,39 @@ async def assign_target(
     return target
 
 
+def make_proposer() -> Proposer | None:
+    """The model client, or None when no key is configured (DoD A4). Patched in tests."""
+    if not settings.llm_api_key:
+        return None
+    return AnthropicProposer(settings.llm_api_key, settings.llm_model)
+
+
+async def _recent_logs(
+    session: AsyncSession, student_id: uuid.UUID, limit: int = 12
+) -> list[dict[str, Any]]:
+    rows = await session.execute(
+        select(LogEntry, Prescription.target_id)
+        .join(Prescription, Prescription.id == LogEntry.prescription_id)
+        .where(LogEntry.student_id == student_id)
+        .order_by(LogEntry.created_at.desc())
+        .limit(limit)
+    )
+    out: list[dict[str, Any]] = []
+    for log, target_id in rows.all():
+        out.append(
+            {
+                "target_id": str(target_id),
+                "tempo_used": log.tempo_used,
+                "best_consecutive": log.best_consecutive,
+                "break_unit": log.break_unit,
+                "felt_difficulty": log.felt_difficulty,
+                "free_text": log.free_text,
+                "logged_at": log.created_at.isoformat(),
+            }
+        )
+    return list(reversed(out))
+
+
 async def next_session(
     session: AsyncSession, student: Student, duration_minutes: int
 ) -> PracticeSession:
@@ -117,24 +157,40 @@ async def next_session(
         if t.state_row is not None
     ]
     engine_student = EngineStudent(level=student.level, instrument_family=student.instrument_family)
-    ids: dict[str, uuid.UUID] = {}
 
     def mint(target_id: str) -> str:
-        ids[target_id] = uuid.uuid4()
-        return str(ids[target_id])
+        return str(uuid.uuid4())
 
+    proposer = make_proposer()
+    llm_report: dict[str, Any] | None = None
     try:
-        plan = engine_compose.compose(engine_student, pairs, duration_minutes, mint)
+        if proposer is None:
+            plan = engine_compose.compose(engine_student, pairs, duration_minutes, mint)
+            source = "engine"
+        else:
+            request = ProposalRequest(
+                student=engine_student,
+                targets=pairs,
+                duration_minutes=duration_minutes,
+                recent_logs=await _recent_logs(session, student.id),
+            )
+            outcome = await propose_session(request, proposer, mint)
+            plan, source = outcome.plan, outcome.source
+            llm_report = {
+                "violations": outcome.report.violations,
+                "repaired": outcome.report.repaired,
+                "coaching_note": outcome.report.coaching_note,
+            }
     except EngineError as exc:
         raise engine_error(exc) from exc
 
-    source = "llm" if settings.llm_api_key else "engine"  # M3 replaces this with the proposal path
     row = PracticeSession(
         student_id=student.id,
         duration_minutes=duration_minutes,
         plan=plan.model_dump(mode="json"),
         plan_hash=plan.plan_hash,
         source=source,
+        llm_report=llm_report,
     )
     for position, segment in enumerate(plan.segments):
         if segment.prescription is None:
@@ -238,6 +294,7 @@ async def session_out(session: AsyncSession, row: PracticeSession) -> schemas.Se
         plan=schemas.plan_from_row(row.plan),
         created_at=row.created_at,
         completed_at=row.completed_at,
+        llm_report=row.llm_report,
         logs=[
             schemas.LogOut(
                 id=log.id,

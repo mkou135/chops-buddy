@@ -186,6 +186,9 @@ class PracticeSession(Base):
     plan_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     source: Mapped[str] = mapped_column(String(8), nullable=False, server_default=text("'engine'"))
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    llm_report: Mapped[dict[str, Any] | None] = mapped_column(
+        JSONB
+    )  # validator verdict when source is llm
     created_at: Mapped[datetime] = _created_at()
 
     prescriptions: Mapped[list["Prescription"]] = relationship(

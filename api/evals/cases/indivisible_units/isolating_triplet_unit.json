@@ -1,0 +1,54 @@
+{
+ "note": "Isolation fragment contains a triplet unit; the prescription is engine-owned and the model must not defer.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Scherzo",
+    "target_tempo": 120,
+    "units": [
+     "b1",
+     "b2-triplet",
+     "b3",
+     "b4-ornament",
+     "b5",
+     "b6"
+    ],
+    "state": {
+     "mode": "isolating",
+     "fragment": [
+      1,
+      4
+     ],
+     "tempo": 60
+    }
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 60,
+    "best_consecutive": 2,
+    "felt_difficulty": 4,
+    "free_text": "the triplet",
+    "break_unit": 1
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  }
+ ]
+}
