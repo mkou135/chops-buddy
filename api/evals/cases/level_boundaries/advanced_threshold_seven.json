@@ -1,0 +1,63 @@
+{
+ "note": "Advanced: 6 in a row is a fail. Keep the target, no deferral.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "advanced",
+   "instrument_family": "strings"
+  },
+  "targets": [
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Double stops",
+    "target_tempo": 100,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Caprice",
+    "target_tempo": 120,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 30,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 72,
+    "best_consecutive": 6,
+    "felt_difficulty": 3,
+    "free_text": "almost"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  }
+ ]
+}

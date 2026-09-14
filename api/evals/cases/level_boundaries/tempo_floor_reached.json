@@ -1,0 +1,56 @@
+{
+ "note": "Working tempo is already at the floor (half target). Model cannot slow it; allocation only.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "D minor",
+    "target_tempo": 80,
+    "units": [
+     "asc",
+     "desc"
+    ],
+    "state": {
+     "tempo": 40
+    }
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Song",
+    "target_tempo": 80,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "s1",
+    "tempo_used": 40,
+    "best_consecutive": 1,
+    "felt_difficulty": 5,
+    "free_text": "too fast still"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "s1"
+  }
+ ]
+}

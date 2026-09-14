@@ -1,0 +1,51 @@
+{
+ "note": "Percussion, two technique targets, clean log.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "percussion"
+  },
+  "targets": [
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Paradiddles",
+    "target_tempo": 120,
+    "units": [
+     "rlrr",
+     "lrll"
+    ]
+   },
+   {
+    "id": "t2",
+    "kind": "technique",
+    "title": "Flam accents",
+    "target_tempo": 100,
+    "units": [
+     "f1",
+     "f2",
+     "f3",
+     "f4"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "t1",
+    "tempo_used": 76,
+    "best_consecutive": 5,
+    "felt_difficulty": 3
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "note": "Teacher phrases annotated; the isolated fragment is a whole phrase.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "strings"
+  },
+  "targets": [
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Air",
+    "target_tempo": 96,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ],
+    "phrases": [
+     [
+      0,
+      4
+     ],
+     [
+      4,
+      8
+     ]
+    ],
+    "state": {
+     "mode": "isolating",
+     "fragment": [
+      4,
+      8
+     ],
+     "tempo": 48
+    }
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Vibrato ex.",
+    "target_tempo": 80,
+    "units": [
+     "a",
+     "b",
+     "c"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 48,
+    "best_consecutive": 3,
+    "felt_difficulty": 4,
+    "free_text": "second phrase"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  }
+ ]
+}

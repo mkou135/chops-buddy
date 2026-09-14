@@ -1,0 +1,52 @@
+{
+ "note": "Zero correct in a row but says it was easy. Do not reward the words.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "C major",
+    "target_tempo": 90,
+    "units": [
+     "oct1"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Au Clair de la Lune",
+    "target_tempo": 84,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 56,
+    "best_consecutive": 0,
+    "felt_difficulty": 1,
+    "free_text": "super easy"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  }
+ ]
+}

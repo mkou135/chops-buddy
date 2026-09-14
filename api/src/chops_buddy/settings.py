@@ -5,7 +5,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="CB_", env_file=".env", extra="ignore")
 
     commit_sha: str = "dev"
-    llm_api_key: str | None = None
+    llm_api_key: str | None = None  # Anthropic API key; unset = engine only (DoD A4)
+    llm_model: str = "claude-opus-5"
 
     # SQLAlchemy URL, e.g. postgresql+asyncpg://user:pass@host:6543/postgres
     # For Supabase use the transaction-mode pooler; see db/base.py for the asyncpg flags.

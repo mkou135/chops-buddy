@@ -1,0 +1,64 @@
+{
+ "note": "No target named, no problem named.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "A major",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Study no. 4",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 64,
+    "best_consecutive": 5,
+    "felt_difficulty": 3,
+    "free_text": "practised a bit"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

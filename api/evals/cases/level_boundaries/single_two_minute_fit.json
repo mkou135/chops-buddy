@@ -1,0 +1,69 @@
+{
+ "note": "Five targets in 10 minutes on keyboard: exactly 2 each fits, no deferral needed.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Ex 1",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b"
+    ]
+   },
+   {
+    "id": "t2",
+    "kind": "technique",
+    "title": "Ex 2",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b"
+    ]
+   },
+   {
+    "id": "t3",
+    "kind": "technique",
+    "title": "Ex 3",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b"
+    ]
+   },
+   {
+    "id": "t4",
+    "kind": "technique",
+    "title": "Ex 4",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b"
+    ]
+   },
+   {
+    "id": "t5",
+    "kind": "technique",
+    "title": "Ex 5",
+    "target_tempo": 90,
+    "units": [
+     "a",
+     "b"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  }
+ ]
+}

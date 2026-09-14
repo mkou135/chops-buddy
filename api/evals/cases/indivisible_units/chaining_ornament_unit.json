@@ -1,0 +1,72 @@
+{
+ "note": "Chaining with an ornament as the last unit; the suffix is engine-owned.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "advanced",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Fugue subject",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2-triplet",
+     "b3",
+     "b4-ornament",
+     "b5",
+     "b6"
+    ],
+    "state": {
+     "mode": "chaining",
+     "chain_base": [
+      0,
+      6
+     ],
+     "chain_len": 1,
+     "fragment": [
+      5,
+      6
+     ],
+     "tempo": 56
+    }
+   },
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "Harmonic minor",
+    "target_tempo": 100,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 56,
+    "best_consecutive": 4,
+    "felt_difficulty": 5
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  },
+  {
+   "type": "minutes_at_least",
+   "target_id": "r1",
+   "minutes": 10
+  }
+ ]
+}

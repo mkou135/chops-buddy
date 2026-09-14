@@ -1,0 +1,58 @@
+{
+ "note": "Two scales assigned in order; the model must keep assignment order within the kind.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "C major",
+    "target_tempo": 80,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s2",
+    "kind": "scale",
+    "title": "G major",
+    "target_tempo": 80,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Lightly Row",
+    "target_tempo": 90,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  }
+ ]
+}

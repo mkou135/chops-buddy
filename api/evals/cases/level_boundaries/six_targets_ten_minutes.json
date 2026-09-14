@@ -1,0 +1,79 @@
+{
+ "note": "Six targets cannot all fit in 10 minutes at 2 minutes each with no reason; the model must defer at least one and stay legal.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "Scale 1",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s2",
+    "kind": "scale",
+    "title": "Scale 2",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s3",
+    "kind": "scale",
+    "title": "Scale 3",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s4",
+    "kind": "scale",
+    "title": "Scale 4",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s5",
+    "kind": "scale",
+    "title": "Scale 5",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "s6",
+    "kind": "scale",
+    "title": "Scale 6",
+    "target_tempo": 90,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "note": "Beginner: threshold 3 met. Normal allocation.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "C major",
+    "target_tempo": 90,
+    "units": [
+     "oct1"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Lightly Row",
+    "target_tempo": 90,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   }
+  ],
+  "duration_minutes": 10,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 56,
+    "best_consecutive": 3,
+    "felt_difficulty": 2
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  }
+ ]
+}

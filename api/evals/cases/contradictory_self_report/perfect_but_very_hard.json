@@ -1,0 +1,69 @@
+{
+ "note": "Threshold met at target tempo but felt difficulty 5. Engine keeps it working; model should keep it in.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "E major",
+    "target_tempo": 100,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Prelude",
+    "target_tempo": 120,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ],
+    "state": {
+     "tempo": 120,
+     "mastery_streak": 1
+    }
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "target_id": "r1",
+    "tempo_used": 120,
+    "best_consecutive": 5,
+    "felt_difficulty": 5,
+    "free_text": "nailed it but it was brutal"
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "does_not_defer",
+   "target_id": "r1"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

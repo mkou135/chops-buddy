@@ -1,0 +1,56 @@
+{
+ "note": "Percussion, no long tones, first session.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "percussion"
+  },
+  "targets": [
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Single stroke roll",
+    "target_tempo": 140,
+    "units": [
+     "r",
+     "l"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Snare solo",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

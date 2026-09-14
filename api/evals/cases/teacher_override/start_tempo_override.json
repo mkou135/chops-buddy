@@ -1,0 +1,49 @@
+{
+ "note": "Teacher set start_tempo above the default; state reflects it. Allocation unaffected.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "brass"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "G major",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ],
+    "start_tempo": 88
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Chorale",
+    "target_tempo": 72,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "note": "First ever session, wind beginner.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "C major",
+    "target_tempo": 90,
+    "units": [
+     "oct1"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Hot Cross Buns",
+    "target_tempo": 90,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": []
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,63 @@
+{
+ "note": "Teacher asks to rest the piece (working mode) for a week. Deferring it is legal and expected.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "beginner",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "C major",
+    "target_tempo": 80,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Five-finger",
+    "target_tempo": 80,
+    "units": [
+     "a",
+     "b"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Minuet",
+    "target_tempo": 96,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "teacher_note": "Give the Minuet a rest this week, we will come back to it."
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "defers",
+   "target_id": "r1"
+  }
+ ]
+}

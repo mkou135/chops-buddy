@@ -1,0 +1,60 @@
+{
+ "note": "Teacher note says focus on the scale. Scale should get at least the engine's share plus some.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "Eb major",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Sonata",
+    "target_tempo": 112,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "teacher_note": "Exam in two weeks: prioritise the scale this week."
+   },
+   {
+    "target_id": "s1",
+    "tempo_used": 60,
+    "best_consecutive": 4,
+    "felt_difficulty": 3
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "minutes_at_least",
+   "target_id": "s1",
+   "minutes": 8
+  }
+ ]
+}

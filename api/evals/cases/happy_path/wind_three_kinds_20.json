@@ -1,0 +1,82 @@
+{
+ "note": "Baseline: wind student, one of each kind, clean log. Nothing to change.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "wind"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "G major",
+    "target_tempo": 100,
+    "units": [
+     "oct1",
+     "oct2"
+    ]
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Slurs ex. 3",
+    "target_tempo": 90,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Minuet bars 1-8",
+    "target_tempo": 120,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 20,
+  "recent_logs": [
+   {
+    "target_id": "s1",
+    "tempo_used": 60,
+    "best_consecutive": 5,
+    "felt_difficulty": 2,
+    "free_text": "solid"
+   },
+   {
+    "target_id": "r1",
+    "tempo_used": 72,
+    "best_consecutive": 5,
+    "felt_difficulty": 2
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "agrees_with_engine"
+  },
+  {
+   "type": "mentions_none_of",
+   "words": [
+    "ghost",
+    "etude no. 9",
+    "arpeggio"
+   ]
+  }
+ ]
+}

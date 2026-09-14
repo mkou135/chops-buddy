@@ -1,0 +1,70 @@
+{
+ "note": "Teacher wants technique weighted; thirty minutes gives room. Technique at least engine share plus.",
+ "added": "2026-09-14",
+ "input": {
+  "student": {
+   "level": "intermediate",
+   "instrument_family": "keyboard"
+  },
+  "targets": [
+   {
+    "id": "s1",
+    "kind": "scale",
+    "title": "B major",
+    "target_tempo": 100,
+    "units": [
+     "asc",
+     "desc"
+    ]
+   },
+   {
+    "id": "t1",
+    "kind": "technique",
+    "title": "Czerny 1",
+    "target_tempo": 108,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   },
+   {
+    "id": "r1",
+    "kind": "repertoire",
+    "title": "Nocturne",
+    "target_tempo": 72,
+    "units": [
+     "b1",
+     "b2",
+     "b3",
+     "b4",
+     "b5",
+     "b6",
+     "b7",
+     "b8"
+    ]
+   }
+  ],
+  "duration_minutes": 30,
+  "recent_logs": [
+   {
+    "teacher_note": "Czerny is the priority until the recital."
+   }
+  ]
+ },
+ "assertions": [
+  {
+   "type": "legal"
+  },
+  {
+   "type": "minutes_at_least",
+   "target_id": "t1",
+   "minutes": 10
+  }
+ ]
+}
