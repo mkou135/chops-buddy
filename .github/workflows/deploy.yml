@@ -1,0 +1,148 @@
+name: deploy
+
+# Infra on every PR (fmt + validate always; plan when AWS is configured) and on main
+# (apply, build + push the image, run migrations, then verify /health reports the SHA).
+
+on:
+  push:
+    branches: [main]
+    paths: ["api/**", "infra/**", ".github/workflows/deploy.yml"]
+  pull_request:
+    paths: ["api/**", "infra/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write # OIDC to AWS
+  contents: read
+  pull-requests: write
+
+env:
+  AWS_REGION: ap-southeast-2
+
+jobs:
+  image:
+    # Prove the container builds and answers /health, with no AWS involved.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v6
+        with:
+          context: api
+          load: true
+          tags: chops-buddy-api:ci
+          build-args: COMMIT_SHA=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test /health
+        run: |
+          docker run -d --name api -p 8080:8080 \
+            -e CB_DATABASE_URL=postgresql+asyncpg://x:y@localhost:5432/z \
+            chops-buddy-api:ci
+          ok=0
+          for i in $(seq 1 30); do
+            if curl -fsS -o /tmp/health http://localhost:8080/health; then ok=1; break; fi
+            sleep 1
+          done
+          docker logs api --tail 20
+          [ "$ok" = 1 ] || { echo "no healthy response"; exit 1; }
+          cat /tmp/health
+          grep -q '"commit":"${{ github.sha }}"' /tmp/health
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    env:
+      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.5"
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false
+      - run: terraform validate
+      - name: Configure AWS (OIDC)
+        if: env.AWS_ROLE_ARN != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Init with remote state
+        if: env.AWS_ROLE_ARN != ''
+        run: |
+          rm -rf .terraform
+          terraform init -reconfigure \
+            -backend-config="bucket=${TF_STATE_BUCKET}" \
+            -backend-config="region=${AWS_REGION}" \
+            -backend-config="dynamodb_table=chops-buddy-tflock"
+      - name: Plan
+        if: env.AWS_ROLE_ARN != ''
+        run: terraform plan -no-color -input=false -out=tfplan
+      - name: Apply
+        if: env.AWS_ROLE_ARN != '' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: terraform apply -input=false tfplan
+      - name: Not configured
+        if: env.AWS_ROLE_ARN == ''
+        run: echo "::warning::AWS_ROLE_ARN secret not set; plan/apply skipped (fmt + validate ran)"
+
+  release:
+    needs: [image, terraform]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Not configured
+        if: env.AWS_ROLE_ARN == ''
+        run: echo "::warning::AWS_ROLE_ARN secret not set; release skipped"
+      - name: Configure AWS (OIDC)
+        if: env.AWS_ROLE_ARN != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to ECR
+        if: env.AWS_ROLE_ARN != ''
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - uses: docker/setup-buildx-action@v3
+        if: env.AWS_ROLE_ARN != ''
+      - name: Run migrations against the live database
+        if: env.AWS_ROLE_ARN != ''
+        env:
+          CB_DATABASE_URL: ${{ secrets.CB_DATABASE_URL_MIGRATIONS }} # session-mode pooler (port 5432), not transaction mode
+        run: |
+          pip install -q ./api
+          cd api && python -m alembic upgrade head
+      - name: Build and push (sha + latest)
+        if: env.AWS_ROLE_ARN != ''
+        uses: docker/build-push-action@v6
+        with:
+          context: api
+          push: true
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/chops-buddy-api:${{ github.sha }}
+            ${{ steps.ecr.outputs.registry }}/chops-buddy-api:latest
+          build-args: COMMIT_SHA=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Wait for App Runner and verify /health (DoD A12)
+        if: env.AWS_ROLE_ARN != ''
+        run: |
+          ARN=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='chops-buddy-api'].ServiceArn" --output text)
+          URL=$(aws apprunner describe-service --service-arn "$ARN" --query Service.ServiceUrl --output text)
+          echo "service: https://$URL"
+          for i in $(seq 1 60); do
+            STATUS=$(aws apprunner describe-service --service-arn "$ARN" --query Service.Status --output text)
+            BODY=$(curl -fsS "https://$URL/health" || true)
+            echo "$STATUS $BODY"
+            if [ "$STATUS" = "RUNNING" ] && echo "$BODY" | grep -q '"commit":"${{ github.sha }}"'; then exit 0; fi
+            sleep 15
+          done
+          echo "App Runner did not report the new commit in time"; exit 1
