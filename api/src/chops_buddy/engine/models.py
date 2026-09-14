@@ -57,7 +57,15 @@ class Target(BaseModel):
 
     @model_validator(mode="after")
     def _phrases_cover_units(self) -> "Target":
-        # TODO(E-14): validate phrases are sorted, non-overlapping, and cover [0, len(units)).
+        if self.phrases is None:
+            return self
+        expected_start = 0
+        for start, end in self.phrases:
+            if start != expected_start or end <= start:
+                raise ValueError("phrases must be sorted, non-overlapping, and gap-free")
+            expected_start = end
+        if expected_start != len(self.units):
+            raise ValueError("phrases must cover exactly [0, len(units))")
         return self
 
 
