@@ -3,7 +3,7 @@ import uuid
 from fastapi import APIRouter, Response, status
 from sqlalchemy import select
 
-from chops_buddy.api import schemas, services
+from chops_buddy.api import crm, schemas, services
 from chops_buddy.api.auth import SessionDep, TeacherDep
 from chops_buddy.db.models import Student, Target
 
@@ -14,6 +14,7 @@ router = APIRouter(prefix="/teacher", tags=["teacher"])
 async def create_student(
     body: schemas.StudentCreate, teacher: TeacherDep, session: SessionDep
 ) -> schemas.StudentOut:
+    await crm.assert_can_place_in_school(session, teacher, body.school_id)
     student = Student(
         teacher_id=teacher.id,
         school_id=body.school_id,

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from chops_buddy.api import schemas
 from chops_buddy.api.auth import ClaimsDep, ProfileDep, SessionDep
-from chops_buddy.api.routers import student, teacher
+from chops_buddy.api.routers import crm, student, teacher
 from chops_buddy.db.models import Profile
 from chops_buddy.settings import settings
 
@@ -29,6 +29,7 @@ class _CORS(CORSMiddleware):
 app.add_middleware(_CORS)
 app.include_router(teacher.router)
 app.include_router(student.router)
+app.include_router(crm.router)
 
 
 @app.get("/health")

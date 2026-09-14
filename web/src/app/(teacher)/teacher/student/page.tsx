@@ -5,6 +5,7 @@ import { Suspense, useCallback, useEffect, useState, type FormEvent } from "reac
 
 import { PageHeader } from "@/components/page-header";
 import { SessionPlanView } from "@/components/session-plan";
+import { StudentCrm } from "@/components/student-crm";
 import type { Session, StudentDetail, TargetKind } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 
@@ -128,6 +129,8 @@ function StudentDetailInner() {
           </button>
         </form>
       </section>
+
+      {student ? <StudentCrm studentId={student.id} schoolId={student.school_id} onSchoolChange={load} /> : null}
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Sessions</h2>
