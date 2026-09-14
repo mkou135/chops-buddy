@@ -1,0 +1,37 @@
+---
+title: "Cadence — Passage Mastery Algorithm"
+config:
+  theme: base
+  themeVariables:
+    fontSize: "16px"
+    primaryColor: "#eef2ff"
+    primaryBorderColor: "#4f46e5"
+    primaryTextColor: "#1e1b4b"
+    lineColor: "#475569"
+---
+flowchart TD
+    A["Pick a target<br/>(a scale, or a chunk of the piece)"] --> B["Set tempo = target speed<br/>metronome on"]
+    B --> C["Student plays the target"]
+    C --> D{"Played it correctly?<br/><i>low-confidence mic reads are<br/>ignored, never counted wrong</i>"}
+
+    D -- "No" --> E["Reset the<br/>'correct in a row' count to 0"]
+    E --> F{"Why is it failing?"}
+    F -- "One specific spot" --> G["ISOLATE that fragment<br/>run this same loop on it,<br/>then put it back in context"]
+    F -- "Generally too hard" --> H["SLOW DOWN<br/>halve the tempo"]
+    F -- "Still stuck after<br/>slowing &amp; isolating" --> I["BACKWARDS CHAIN<br/>rebuild from the last note,<br/>adding one note at a time"]
+    G --> C
+    H --> C
+    I --> C
+
+    D -- "Yes" --> J["+1 to the<br/>'correct in a row' count"]
+    J --> K{"Hit the threshold?<br/>3 / 5 / 7 in a row<br/>(by student level)"}
+    K -- "Not yet" --> C
+    K -- "Yes" --> L{"At target tempo?"}
+    L -- "No" --> M["TEMPO LADDER<br/>raise tempo one step"]
+    M --> C
+    L -- "Yes" --> N(["DONE — target mastered"])
+
+    classDef done fill:#dcfce7,stroke:#16a34a,color:#14532d;
+    classDef tool fill:#fef9c3,stroke:#ca8a04,color:#713f12;
+    class N done;
+    class G,H,I,M tool;
