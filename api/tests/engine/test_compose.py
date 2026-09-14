@@ -113,7 +113,8 @@ def test_kind_allocation_and_redistribution() -> None:
 
 
 def test_within_kind_weights_and_sum() -> None:
-    # Two repertoire targets, one working (weight 1) and one isolating (weight 2), 30 min keyboard → 30 to repertoire.
+    # Two repertoire targets, one working (weight 1) and one isolating (weight 2).
+    # Keyboard, 30 minutes: all 30 go to repertoire.
     pairs = [
         pair(target("r1", TargetKind.repertoire)),
         pair(target("r2", TargetKind.repertoire), Mode.isolating),
@@ -125,7 +126,7 @@ def test_within_kind_weights_and_sum() -> None:
 
 
 def test_drops_targets_when_too_short() -> None:
-    # 10-minute keyboard session, five scales → 10 minutes for scales, 2 each is the minimum, all fit.
+    # 10-minute keyboard session, five scales: 10 minutes for scales, 2 each, all fit.
     five = [pair(target(f"s{i}", TargetKind.scale)) for i in range(5)]
     result = plan(KEYS, five, 10)
     assert [s.minutes for s in result.segments] == [2, 2, 2, 2, 2]

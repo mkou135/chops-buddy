@@ -77,6 +77,8 @@ def test_isolation_window_and_phrase_override() -> None:
     phrased = make_target(n_units=8, phrases=[(0, 3), (3, 8)])
     assert isolation_fragment(phrased, 5) == (3, 8)
     assert isolation_fragment(phrased, 1) == (0, 3)
+    # A break unit outside every phrase falls back to the window (defensive; E-61 prevents it).
+    assert isolation_fragment(phrased, 8) == (6, 8)
 
 
 def test_target_requires_units() -> None:
