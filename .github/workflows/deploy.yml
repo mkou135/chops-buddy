@@ -40,10 +40,15 @@ jobs:
           docker run -d --name api -p 8080:8080 \
             -e CB_DATABASE_URL=postgresql+asyncpg://x:y@localhost:5432/z \
             chops-buddy-api:ci
-          for i in $(seq 1 20); do
-            if curl -fsS http://localhost:8080/health | tee /tmp/health; then break; fi; sleep 1; done
-          grep -q '"commit":"${{ github.sha }}"' /tmp/health
+          ok=0
+          for i in $(seq 1 30); do
+            if curl -fsS -o /tmp/health http://localhost:8080/health; then ok=1; break; fi
+            sleep 1
+          done
           docker logs api --tail 20
+          [ "$ok" = 1 ] || { echo "no healthy response"; exit 1; }
+          cat /tmp/health
+          grep -q '"commit":"${{ github.sha }}"' /tmp/health
 
   terraform:
     runs-on: ubuntu-latest
