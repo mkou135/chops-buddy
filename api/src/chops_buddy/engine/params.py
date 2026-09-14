@@ -39,7 +39,9 @@ def tempo_floor(target: Target) -> int:
 
 def initial_tempo(target: Target) -> int:
     """E-13."""
-    tempo = target.start_tempo if target.start_tempo is not None else round4(0.60 * target.target_tempo)
+    tempo = (
+        target.start_tempo if target.start_tempo is not None else round4(0.60 * target.target_tempo)
+    )
     return max(tempo_floor(target), tempo)
 
 
