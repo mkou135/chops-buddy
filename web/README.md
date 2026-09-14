@@ -1,28 +1,17 @@
+# web
 
-# Chops Buddy
+Thin Next.js client for the Chops Buddy API (DECISIONS #12). Deliberately plain: forms and lists, no design investment.
 
-A Next.js + Tailwind CSS project for building the Chops Buddy saxophone teaching platform. The MVP focuses on teacher scheduling, scale assignments, and guided practice summaries powered by Supabase.
+- `/sign-in`: Supabase email/password; sign-up also creates the API profile with a role.
+- `/student`: start a 10/20/30-minute session, log each prescription, see the next state.
+- `/student/history`: every session with its logs.
+- `/teacher/students`: roster and add-student form.
+- `/teacher/student/?id=`: assign targets (units are comma-separated; a triplet is one unit), remove them, read the student's sessions and the validator's verdict on model-planned ones.
 
-## Getting Started
+Static export (`next build` writes `out/`) deployed to GitHub Pages by `.github/workflows/pages.yml`. Copy `.env.example` to `.env.local` to run against a local API.
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Run the development server:
-   ```bash
-   npm run dev
-   ```
-3. Open [http://localhost:3000](http://localhost:3000) to view the marketing landing page. Visit `/teacher/dashboard` for the teacher workspace prototype and `/docs/design` for the full product design document.
-
-## Documentation
-- [MVP Design Document](docs/design.md)
-
-## Tooling
-- TypeScript + App Router Next.js
-- Tailwind CSS for styling
-- ESLint & Prettier with Tailwind plugin
-- Husky + lint-staged (run `npm run prepare` after installing dependencies)
-
-## Project Roadmap
-Refer to the design document for detailed personas, page flows, and rollout plan. Upcoming milestones include Supabase integration, studio management features, and the guided practice tuner experience.
+```bash
+npm install && npm run dev      # http://localhost:3000
+npm test                        # vitest
+npm run lint && npm run build
+```

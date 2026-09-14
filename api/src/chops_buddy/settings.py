@@ -15,5 +15,8 @@ class Settings(BaseSettings):
     # Supabase Auth. HS256 legacy secret for local/test; JWKS URL is added in M4.
     supabase_jwt_secret: str | None = None
 
+    # Browser origins allowed to call the API (DECISIONS #28). Comma-separated in the env.
+    cors_origins: list[str] = ["http://localhost:3000"]
+
 
 settings = Settings()

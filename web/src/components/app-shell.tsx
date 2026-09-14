@@ -13,9 +13,10 @@ type AppShellProps = {
   navItems: AppNavItem[];
   header?: ReactNode;
   footer?: ReactNode;
+  subtitle?: string;
 };
 
-export function AppShell({ children, navItems, header, footer }: AppShellProps) {
+export function AppShell({ children, navItems, header, footer, subtitle }: AppShellProps) {
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
@@ -24,7 +25,7 @@ export function AppShell({ children, navItems, header, footer }: AppShellProps) 
             <span className="text-sm font-semibold uppercase tracking-wide text-brand-dark">
               Chops Buddy
             </span>
-            <span className="text-base text-slate-500">Teacher workspace</span>
+            <span className="text-base text-slate-500">{subtitle ?? "Practice"}</span>
           </div>
           {header}
         </div>

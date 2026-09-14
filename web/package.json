@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.43.1",
@@ -27,7 +28,8 @@
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.11",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "^2.1.9"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
