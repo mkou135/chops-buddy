@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 
 from chops_buddy.api import schemas
 from chops_buddy.api.auth import ClaimsDep, ProfileDep, SessionDep
@@ -7,6 +8,25 @@ from chops_buddy.db.models import Profile
 from chops_buddy.settings import settings
 
 app = FastAPI(title="Chops Buddy API", version="0.1.0")
+
+
+class _CORS(CORSMiddleware):
+    """Reads the origin list from settings at request time so tests can change it."""
+
+    def __init__(self, app: object) -> None:  # type: ignore[override]
+        super().__init__(
+            app,  # type: ignore[arg-type]
+            allow_origins=[],
+            allow_methods=["*"],
+            allow_headers=["*"],
+            allow_credentials=False,
+        )
+
+    def is_allowed_origin(self, origin: str) -> bool:
+        return origin in settings.cors_origins
+
+
+app.add_middleware(_CORS)
 app.include_router(teacher.router)
 app.include_router(student.router)
 

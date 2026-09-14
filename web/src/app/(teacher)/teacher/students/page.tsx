@@ -1,79 +1,82 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { PageHeader } from "@/components/page-header";
+import type { InstrumentFamily, Level, Student } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 
-const students = [
-  {
-    id: "1",
-    name: "Alex Rivera",
-    level: "Intermediate",
-    focus: "Tone and intonation",
-    nextLesson: "Tue, 4:30 PM",
-  },
-  {
-    id: "2",
-    name: "Maya Chen",
-    level: "Beginner",
-    focus: "First octave finger transitions",
-    nextLesson: "Wed, 5:15 PM",
-  },
-  {
-    id: "3",
-    name: "Jordan Smith",
-    level: "Advanced",
-    focus: "Altissimo warmups",
-    nextLesson: "Thu, 6:00 PM",
-  },
-];
+const LEVELS: Level[] = ["beginner", "intermediate", "advanced"];
+const FAMILIES: InstrumentFamily[] = ["wind", "brass", "voice", "strings", "keyboard", "percussion"];
 
 export default function StudentsPage() {
+  const { api } = useAuth();
+  const [students, setStudents] = useState<Student[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [level, setLevel] = useState<Level>("beginner");
+  const [family, setFamily] = useState<InstrumentFamily>("wind");
+
+  const load = useCallback(() => {
+    api.listStudents().then(setStudents).catch((err) => setError(String(err)));
+  }, [api]);
+  useEffect(load, [load]);
+
+  async function add(e: FormEvent) {
+    e.preventDefault();
+    setError(null);
+    try {
+      await api.createStudent({ display_name: name, level, instrument_family: family });
+      setName("");
+      load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
   return (
-    <div className="space-y-8">
-      <PageHeader
-        title="Students"
-        description="Keep roster details current to tailor assignments and track lesson history."
-        actions={
-          <button className="rounded-xl bg-brand-dark px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-brand" type="button">
-            Add new student
-          </button>
-        }
-      />
-
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-slate-600">
-            Track lesson notes, assignments, and practice expectations for each player.
-          </p>
-          <button type="button" className="rounded-xl border border-brand-dark px-4 py-2 text-sm font-medium text-brand-dark transition hover:bg-brand-light">
-            Import roster
-          </button>
-        </div>
-
-        <div className="grid gap-4">
-          {students.map((student) => (
-            <article
-              key={student.id}
-              className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 md:flex-row md:items-center md:justify-between"
-            >
-              <div>
-                <h2 className="text-base font-semibold text-slate-900">{student.name}</h2>
-                <p className="text-sm text-slate-600">
-                  {student.level} · Focus: {student.focus}
-                </p>
-              </div>
-              <div className="flex flex-col items-start gap-2 text-sm text-slate-500 md:flex-row md:items-center">
-                <span>Next lesson: {student.nextLesson}</span>
-                <Link
-                  href={`/teacher/students/${student.id}`}
-                  className="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-medium text-brand-dark shadow-sm transition hover:bg-brand-light"
-                >
-                  Open profile
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+    <div className="space-y-6">
+      <PageHeader title="Students" description="Your roster. Open a student to assign targets and see their sessions." />
+      <form onSubmit={add} className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+        <label>
+          Name
+          <input required className="mt-1 block rounded-lg border px-2 py-1" value={name} onChange={(e) => setName(e.target.value)} />
+        </label>
+        <label>
+          Level
+          <select className="mt-1 block rounded-lg border px-2 py-1" value={level} onChange={(e) => setLevel(e.target.value as Level)}>
+            {LEVELS.map((l) => (
+              <option key={l}>{l}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Instrument family
+          <select className="mt-1 block rounded-lg border px-2 py-1" value={family} onChange={(e) => setFamily(e.target.value as InstrumentFamily)}>
+            {FAMILIES.map((f) => (
+              <option key={f}>{f}</option>
+            ))}
+          </select>
+        </label>
+        <button type="submit" className="rounded-xl bg-brand-dark px-4 py-2 font-medium text-white">
+          Add student
+        </button>
+      </form>
+      {error ? <p className="text-sm text-red-700">{error}</p> : null}
+      <ul className="grid gap-3">
+        {students.map((s) => (
+          <li key={s.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <Link href={`/teacher/student/?id=${s.id}`} className="font-semibold no-underline">
+              {s.display_name}
+            </Link>
+            <div className="text-sm text-slate-600">
+              {s.level} · {s.instrument_family}
+            </div>
+          </li>
+        ))}
+      </ul>
+      {students.length === 0 && !error ? <p className="text-sm text-slate-600">No students yet.</p> : null}
     </div>
   );
 }
