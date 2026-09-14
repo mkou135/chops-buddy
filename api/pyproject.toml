@@ -28,6 +28,7 @@ packages = ["src/chops_buddy"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 addopts = "-q"
 
 [tool.coverage.run]
