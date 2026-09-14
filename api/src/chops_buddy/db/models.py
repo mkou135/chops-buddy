@@ -5,12 +5,13 @@ helpers are the only translation layer.
 """
 
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
+    Date,
     DateTime,
     ForeignKey,
     Index,
@@ -235,4 +236,88 @@ class LogEntry(Base):
     felt_difficulty: Mapped[int] = mapped_column(Integer, nullable=False)
     free_text: Mapped[str | None] = mapped_column(String(500))
     state_after: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)  # engine TargetState
+    created_at: Mapped[datetime] = _created_at()
+
+
+# --- CRM (M6) ---------------------------------------------------------------------------
+
+
+class Term(Base):
+    __tablename__ = "terms"
+    __table_args__ = (CheckConstraint("starts_on < ends_on", name="terms_dates_ordered"),)
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    school_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("schools.id", ondelete="CASCADE"), nullable=False
+    )
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    starts_on: Mapped[date] = mapped_column(Date, nullable=False)
+    ends_on: Mapped[date] = mapped_column(Date, nullable=False)
+    created_at: Mapped[datetime] = _created_at()
+
+
+class Lesson(Base):
+    __tablename__ = "lessons"
+    __table_args__ = (
+        CheckConstraint(
+            "status in ('scheduled', 'completed', 'cancelled', 'missed')", name="lessons_status"
+        ),
+        CheckConstraint("duration_minutes between 10 and 180", name="lessons_duration"),
+        Index("lessons_teacher_scheduled_idx", "teacher_id", "scheduled_at"),
+        Index("lessons_student_scheduled_idx", "student_id", "scheduled_at"),
+    )
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    student_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("students.id", ondelete="CASCADE"), nullable=False
+    )
+    teacher_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("profiles.id", ondelete="RESTRICT"), nullable=False
+    )
+    term_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("terms.id", ondelete="SET NULL"))
+    scheduled_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    duration_minutes: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(16), nullable=False, server_default=text("'scheduled'")
+    )
+    notes: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("''"))
+    created_at: Mapped[datetime] = _created_at()
+    updated_at: Mapped[datetime] = _updated_at()
+
+    attendance: Mapped["Attendance | None"] = relationship(
+        back_populates="lesson", cascade="all, delete-orphan", lazy="selectin"
+    )
+
+
+class Attendance(Base):
+    __tablename__ = "attendance"
+    __table_args__ = (
+        CheckConstraint(
+            "status in ('present', 'absent', 'late', 'cancelled')", name="attendance_status"
+        ),
+    )
+
+    lesson_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("lessons.id", ondelete="CASCADE"), primary_key=True
+    )
+    status: Mapped[str] = mapped_column(String(16), nullable=False)
+    note: Mapped[str | None] = mapped_column(Text)
+    updated_at: Mapped[datetime] = _updated_at()
+
+    lesson: Mapped[Lesson] = relationship(back_populates="attendance")
+
+
+class Contact(Base):
+    __tablename__ = "contacts"
+    __table_args__ = (Index("contacts_student_idx", "student_id"),)
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    student_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("students.id", ondelete="CASCADE"), nullable=False
+    )
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    relationship_: Mapped[str] = mapped_column("relationship", Text, nullable=False)
+    phone: Mapped[str | None] = mapped_column(Text)
+    email: Mapped[str | None] = mapped_column(Text)
+    is_primary: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("false"))
     created_at: Mapped[datetime] = _created_at()

@@ -7,6 +7,8 @@ import { RequireRole, useAuth } from "@/lib/auth-context";
 
 const teacherNav: AppNavItem[] = [
   { href: "/teacher/students", label: "Students", description: "Roster and assignments" },
+  { href: "/teacher/schools", label: "Schools", description: "Schools you teach at, and their terms" },
+  { href: "/teacher/schedule", label: "Schedule", description: "Lessons across all students" },
 ];
 
 export default function TeacherLayout({ children }: { children: ReactNode }) {

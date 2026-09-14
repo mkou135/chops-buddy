@@ -1,7 +1,7 @@
 """Request and response bodies. Engine shapes are reused directly where they fit."""
 
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -113,3 +113,91 @@ class SessionOut(BaseModel):
 
 def plan_from_row(plan: dict[str, Any]) -> SessionPlan:
     return SessionPlan.model_validate(plan)
+
+
+# --- CRM (M6) ---------------------------------------------------------------------------
+
+
+class StudentUpdate(BaseModel):
+    display_name: str | None = Field(default=None, min_length=1, max_length=120)
+    level: Level | None = None
+    instrument_family: InstrumentFamily | None = None
+    school_id: uuid.UUID | None = None
+    is_active: bool | None = None
+
+
+class SchoolCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    suburb: str | None = Field(default=None, max_length=120)
+
+
+class SchoolOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    name: str
+    suburb: str | None
+
+
+class TermCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    starts_on: date
+    ends_on: date
+
+
+class TermOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    school_id: uuid.UUID
+    name: str
+    starts_on: date
+    ends_on: date
+
+
+LessonStatus = Literal["scheduled", "completed", "cancelled", "missed"]
+AttendanceStatus = Literal["present", "absent", "late", "cancelled"]
+
+
+class LessonCreate(BaseModel):
+    scheduled_at: datetime
+    duration_minutes: int = Field(ge=10, le=180)
+    term_id: uuid.UUID | None = None
+    notes: str = Field(default="", max_length=4000)
+
+
+class LessonUpdate(BaseModel):
+    scheduled_at: datetime | None = None
+    duration_minutes: int | None = Field(default=None, ge=10, le=180)
+    status: LessonStatus | None = None
+    notes: str | None = Field(default=None, max_length=4000)
+
+
+class AttendanceIn(BaseModel):
+    status: AttendanceStatus
+    note: str | None = Field(default=None, max_length=500)
+
+
+class LessonOut(BaseModel):
+    id: uuid.UUID
+    student_id: uuid.UUID
+    student_display_name: str
+    term_id: uuid.UUID | None
+    scheduled_at: datetime
+    duration_minutes: int
+    status: str
+    notes: str
+    attendance: AttendanceIn | None
+
+
+class ContactCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    relationship: str = Field(min_length=1, max_length=60)
+    phone: str | None = Field(default=None, max_length=40)
+    email: str | None = Field(default=None, max_length=200)
+    is_primary: bool = False
+
+
+class ContactOut(ContactCreate):
+    id: uuid.UUID
+    student_id: uuid.UUID

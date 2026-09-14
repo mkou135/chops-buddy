@@ -1,6 +1,6 @@
 # Data model
 
-Status: v1 for M2. Tables for the CRM milestone (M6: lessons, attendance, contacts, terms) are listed in §5 as planned, not migrated.
+Status: v2. §5 (CRM) migrated in M6.
 
 Principles:
 - The engine owns the shape of target state, prescriptions, and plans. Those are stored as JSONB snapshots of the engine's pydantic models, never re-modelled as columns. The engine is the schema for them (DECISIONS #16).
@@ -125,6 +125,44 @@ The student's self-report. Mirrors engine `LogEntry`.
 - **Next session**: load active targets and states → `compose()` with ids minted by the API → insert `practice_sessions` + `prescriptions`. With the LLM layer enabled (M3), the proposal is validated first and `source` records which won.
 - **Log**: load prescription snapshot and current state → `apply()` → update `target_states` (checking `version`) → insert `log_entries` with `state_after`.
 
-## 5. Planned for M6 (not migrated yet)
+## 5. CRM (M6)
 
-`terms` (school_id, name, starts_on, ends_on), `lessons` (student_id, teacher_id, term_id, scheduled_at, duration_minutes, status, notes), `attendance` (lesson_id, status, note), `contacts` (student_id, name, relationship, phone, email, is_primary).
+Authorisation (DECISIONS #29): school membership grants read of that school's active roster; `students.teacher_id` gates everything else.
+
+### `terms`
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| school_id | uuid FK schools | |
+| name | text | |
+| starts_on, ends_on | date | check `starts_on < ends_on` |
+
+### `lessons`
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| student_id | uuid FK students | |
+| teacher_id | uuid FK profiles | |
+| term_id | uuid FK terms null | must be a term of the student's school, and `scheduled_at` inside it (DECISIONS #30) |
+| scheduled_at | timestamptz | |
+| duration_minutes | int | 10–180 |
+| status | text | `scheduled`, `completed`, `cancelled`, `missed` |
+| notes | text | default empty |
+
+Indexes: `(teacher_id, scheduled_at)`, `(student_id, scheduled_at)`.
+
+### `attendance`
+| column | type | notes |
+|---|---|---|
+| lesson_id | uuid PK FK lessons | one row per lesson |
+| status | text | `present`, `absent`, `late`, `cancelled` |
+| note | text null | |
+
+### `contacts`
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| student_id | uuid FK students | |
+| name, relationship | text | |
+| phone, email | text null | |
+| is_primary | bool | at most one per student, enforced in the service (DECISIONS #31) |

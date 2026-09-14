@@ -100,6 +100,33 @@ export type LogCreate = {
   free_text?: string | null;
 };
 
+// --- CRM (M6)
+export type School = { id: string; name: string; suburb: string | null };
+export type Term = { id: string; school_id: string; name: string; starts_on: string; ends_on: string };
+export type LessonStatus = "scheduled" | "completed" | "cancelled" | "missed";
+export type AttendanceStatus = "present" | "absent" | "late" | "cancelled";
+export type Attendance = { status: AttendanceStatus; note: string | null };
+export type Lesson = {
+  id: string;
+  student_id: string;
+  student_display_name: string;
+  term_id: string | null;
+  scheduled_at: string;
+  duration_minutes: number;
+  status: LessonStatus;
+  notes: string;
+  attendance: Attendance | null;
+};
+export type Contact = {
+  id: string;
+  student_id: string;
+  name: string;
+  relationship: string;
+  phone: string | null;
+  email: string | null;
+  is_primary: boolean;
+};
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -144,6 +171,27 @@ export function createApi(baseUrl: string, getToken: TokenSource, fetchImpl: typ
       call<Target>("POST", `/teacher/students/${studentId}/targets`, body),
     deactivateTarget: (targetId: string) => call<void>("DELETE", `/teacher/targets/${targetId}`),
     studentHistory: (studentId: string) => call<Session[]>("GET", `/teacher/students/${studentId}/history`),
+    updateStudent: (id: string, body: Partial<Pick<Student, "display_name" | "level" | "instrument_family" | "school_id" | "is_active">>) =>
+      call<Student>("PATCH", `/teacher/students/${id}`, body),
+    // crm
+    listSchools: () => call<School[]>("GET", "/teacher/schools"),
+    createSchool: (body: { name: string; suburb?: string | null }) => call<School>("POST", "/teacher/schools", body),
+    joinSchool: (id: string) => call<void>("POST", `/teacher/schools/${id}/join`),
+    schoolStudents: (id: string) => call<Student[]>("GET", `/teacher/schools/${id}/students`),
+    listTerms: (schoolId: string) => call<Term[]>("GET", `/teacher/schools/${schoolId}/terms`),
+    createTerm: (schoolId: string, body: { name: string; starts_on: string; ends_on: string }) =>
+      call<Term>("POST", `/teacher/schools/${schoolId}/terms`, body),
+    studentLessons: (studentId: string) => call<Lesson[]>("GET", `/teacher/students/${studentId}/lessons`),
+    createLesson: (studentId: string, body: { scheduled_at: string; duration_minutes: number; term_id?: string | null; notes?: string }) =>
+      call<Lesson>("POST", `/teacher/students/${studentId}/lessons`, body),
+    updateLesson: (id: string, body: Partial<Pick<Lesson, "scheduled_at" | "duration_minutes" | "status" | "notes">>) =>
+      call<Lesson>("PATCH", `/teacher/lessons/${id}`, body),
+    setAttendance: (id: string, body: Attendance) => call<Lesson>("PUT", `/teacher/lessons/${id}/attendance`, body),
+    schedule: (from: string, to: string) => call<Lesson[]>("GET", `/teacher/lessons?from=${from}&to=${to}`),
+    listContacts: (studentId: string) => call<Contact[]>("GET", `/teacher/students/${studentId}/contacts`),
+    createContact: (studentId: string, body: Omit<Contact, "id" | "student_id">) =>
+      call<Contact>("POST", `/teacher/students/${studentId}/contacts`, body),
+    deleteContact: (id: string) => call<void>("DELETE", `/teacher/contacts/${id}`),
     // student
     myTargets: () => call<Target[]>("GET", "/me/targets"),
     createSession: (duration_minutes: 10 | 20 | 30) => call<Session>("POST", "/me/sessions", { duration_minutes }),
