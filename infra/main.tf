@@ -150,8 +150,8 @@ resource "aws_apprunner_service" "api" {
   }
 
   instance_configuration {
-    cpu               = "256"  # 0.25 vCPU
-    memory            = "512"  # MB
+    cpu               = "256" # 0.25 vCPU
+    memory            = "512" # MB
     instance_role_arn = aws_iam_role.apprunner_instance.arn
   }
 
