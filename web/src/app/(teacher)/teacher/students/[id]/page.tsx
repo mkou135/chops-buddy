@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { PageHeader } from "@/components/page-header";
 
-const mockStudents = {
+const mockStudents: Record<string, { name: string; level: string; goals: string[] }> = {
   "1": {
     name: "Alex Rivera",
     level: "Intermediate",
@@ -18,7 +18,7 @@ const mockStudents = {
     level: "Advanced",
     goals: ["Develop altissimo flexibility", "Prepare for juries"],
   },
-} satisfies Record<string, { name: string; level: string; goals: string[] }>;
+};
 
 type StudentProfilePageProps = {
   params: {
@@ -84,14 +84,14 @@ export default function StudentProfilePage({ params }: StudentProfilePageProps) 
               <p className="font-semibold text-slate-900">Guided session · Concert G Major</p>
               <p>Time spent: 18 minutes</p>
             </div>
-            <span>Completed yesterday · Notes: "Need help with second octave"</span>
+            <span>Completed yesterday · Notes: &ldquo;Need help with second octave&rdquo;</span>
           </div>
           <div className="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="font-semibold text-slate-900">Metronome drill · Quarter = 80</p>
               <p>Time spent: 12 minutes</p>
             </div>
-            <span>Completed 3 days ago · Notes: "Struggled with crossing break"</span>
+            <span>Completed 3 days ago · Notes: &ldquo;Struggled with crossing break&rdquo;</span>
           </div>
         </div>
       </section>
